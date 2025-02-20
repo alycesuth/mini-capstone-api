@@ -19,14 +19,6 @@ class ProductsController < ApplicationController
     render :show
   end
 
-  def new
-    render json: "new"
-  end
-
-  def edit
-    render json: "edit"
-  end
-
   def update
     @product = Product.find_by(id: params[:id])
     @product.update(
@@ -39,5 +31,8 @@ class ProductsController < ApplicationController
   end
 
   def destroy
+    @product = Product.find_by(id: params[:id])
+    @product.destroy
+    render json: { message: "Product successfully destroyed" }
   end
 end
