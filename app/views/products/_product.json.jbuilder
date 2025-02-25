@@ -5,3 +5,6 @@ json.imageUrl product.image_url
 json.description product.description
 json.createdAt product.created_at
 json.updatedAt product.updated_at
+json.isDiscounted product.is_discounted?
+json.tax product.tax
+json.total product.total
