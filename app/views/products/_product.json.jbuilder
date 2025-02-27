@@ -1,9 +1,9 @@
 json.id product.id
 json.name product.name
 json.price product.price
-json.imageUrl product.image_url
 json.description product.description
 json.supplier product.supplier
+json.images product.images
 json.createdAt product.created_at
 json.updatedAt product.updated_at
 json.isDiscounted product.is_discounted?
