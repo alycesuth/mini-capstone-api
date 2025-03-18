@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   # root "posts#index"
   post "/users" => "users#create"
 
+  post "/sessions" => "sessions#create"
+  delete "/sessions" => "sessions#destroy"
+
   get "/products" => "products#index"
   get "/products/:id" => "products#show"
   post "/products" => "products#create"
@@ -20,4 +23,8 @@ Rails.application.routes.draw do
   delete "/products/:id" => "products#destroy"
   get "/suppliers" => "suppliers#index"
   get "/suppliers/:id" => "suppliers#show"
+
+  post "/orders" => "orders#create"
+  get "/orders" => "orders#index"
+  get "/orders/:id" => "orders#show"
 end
