@@ -2,13 +2,17 @@ class OrdersController < ApplicationController
   before_action :authenticate_user
 
   def create
-    product = Product.find_by(id: params[:product_id])
+    carted_products = CartedProduct.where(user_id: current_user.id, status: "carted")
 
-    @order = Order.create(
-      user_id: current_user.id,
-      product_id: product.id,
-      quantity: params[:quantity]
-    )
+    if carted_products.empty?
+      render json: { error: "No items in cart" }, status: :unprocessable_entity
+      return
+    end
+
+    @order = Order.create(user_id: current_user.id)
+
+    carted_products.update_all(status: "purchased", order_id: @order.id)
+
     render :show
   end
 

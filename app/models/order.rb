@@ -1,10 +1,11 @@
 class Order < ApplicationRecord
-  belongs_to :product
   belongs_to :user
+  has_many :carted_products
+  has_many :products, through: :carted_products
 
   def subtotal
-    prod = Product.find_by(id: product_id)
-    quantity * prod.price
+    # carted_products = CartedProduct.where(user_id: user_id, status: "purchased")
+    carted_products.sum { |prod| prod.product.price * prod.quantity }
   end
 
   def tax
