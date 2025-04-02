@@ -16,13 +16,8 @@ class CartedProductsController < ApplicationController
   end
 
   def destroy
-    @carted_product = CartedProduct.find_by(product_id: params[:product_id])
-
-    if @carted_product
-      @carted_product.update(status: "removed")
-      render json: { message: "Item successfully removed from cart." }
-    else
-      render json: { message: "Item not found in cart." }
-    end
+    carted_product = CartedProduct.find_by(id: params[:id])
+    carted_product.update(status: "removed")
+    render json: { message: "Item successfully removed from cart." }
   end
 end

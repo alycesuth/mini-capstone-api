@@ -4,16 +4,23 @@ class OrdersController < ApplicationController
   def create
     carted_products = CartedProduct.where(user_id: current_user.id, status: "carted")
 
-    if carted_products.empty?
-      render json: { error: "No items in cart" }, status: :unprocessable_entity
-      return
-    end
-
     @order = Order.create(user_id: current_user.id)
 
     carted_products.update_all(status: "purchased", order_id: @order.id)
 
-    render :show
+    if @order.valid?
+
+      index = 0
+      while index < carted_products.length
+        carted_product = carted_products[index]
+        carted_product.update(status: "purchased", order_id: @order.id)
+        index += 1
+      end
+
+      render :show
+    else
+      render json: { errors: @order.errors.full_messages }, status: 422
+    end
   end
 
   def index
@@ -23,6 +30,11 @@ class OrdersController < ApplicationController
 
   def show
     @order = current_user.orders.find_by(id: params[:id])
-    render :show
+
+    if @order
+      render :show
+    else
+      render json: { error: "Order not found" }, status: :not_found
+    end
   end
 end
